@@ -30,6 +30,7 @@ class Player(Turtle):
         self.shape("turtle")
         self.bullets = []
         self.alive = True
+        self.health = 3
         self.st()
         screen.onkeypress(self.turn_left, left_key)
         screen.onkeypress(self.turn_right, right_key)
@@ -68,7 +69,10 @@ class Bullet(Turtle):
         self.forward(10)
         if self.xcor() > 230 or self.xcor() < -230 or self.ycor() > 230 or self.ycor() < -230:
             self.die()
-    
+
+    def distance(self):
+        pass
+
     def die(self):
         self.ht()
         self.player.bullets.remove(self)
@@ -86,6 +90,9 @@ p2 = Player(100,0,"blue", "blue", screen, "l","j", "i")
 while p1.alive and p2.alive:
     p1.move()
     p2.move()
-
+    for bullet in p1.bullets:
+        bullet.move()
+    for bullet in p2.bullets:
+        bullet.move()
 
 screen.exitonclick()
