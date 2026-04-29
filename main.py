@@ -70,9 +70,6 @@ class Bullet(Turtle):
         if self.xcor() > 230 or self.xcor() < -230 or self.ycor() > 230 or self.ycor() < -230:
             self.die()
 
-    def distance(self):
-        pass
-
     def die(self):
         self.ht()
         self.player.bullets.remove(self)
@@ -83,8 +80,9 @@ screen.setup(520,520)
 # Key Binding. Connects key presses and mouse clicks with function calls
 screen.listen()
 playing_area()
+colors = ["yellow", "red"]
 
-p1 = Player(-100, 0, "red", "red", screen, "d", "a", "w")
+p1 = Player(-100, 0, "green", "green", screen, "d", "a", "w")
 p2 = Player(100,0,"blue", "blue", screen, "l","j", "i")
 
 while p1.alive and p2.alive:
@@ -92,7 +90,27 @@ while p1.alive and p2.alive:
     p2.move()
     for bullet in p1.bullets:
         bullet.move()
+        if bullet.distance(p2) < 20:
+            bullet.die()
+            p2.health -= 1
+            if p2.health == 2:
+                p2.color() = colors[0]
+            elif p2.health == 1:
+                p2.color() = colors[1]
+            elif p2.health == 0:
+                p2.alive == False
+                p2.ht()
     for bullet in p2.bullets:
         bullet.move()
+        if bullet.distance(p1) < 20:
+            bullet.die()
+            p1.health -= 1
+            if p1.health == 2:
+                p1.color() = colors[0]
+            elif p1.health == 1:
+                p1.color() = colors[1]
+            elif p1.health == 0:
+                p1.alive == False
+                p1.ht()
 
 screen.exitonclick()
