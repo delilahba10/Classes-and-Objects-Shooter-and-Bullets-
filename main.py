@@ -52,6 +52,15 @@ class Player(Turtle):
         if self.ycor() > 230 or self.ycor() < -230:
             self.setheading(-self.heading())
 
+    def stages(self):
+        stages = ['black', 'red', 'yellow', self.player_color] 
+        if self.health > 0:                
+            self.color(stages[self.health])
+        else:
+            self.alive = False
+            self.ht()
+
+
 class Bullet(Turtle):
     def __init__(self, player):
         super().__init__()
@@ -80,7 +89,6 @@ screen.setup(520,520)
 # Key Binding. Connects key presses and mouse clicks with function calls
 screen.listen()
 playing_area()
-colors = ["yellow", "red"]
 
 p1 = Player(-100, 0, "green", "green", screen, "d", "a", "w")
 p2 = Player(100,0,"blue", "blue", screen, "l","j", "i")
@@ -93,24 +101,12 @@ while p1.alive and p2.alive:
         if bullet.distance(p2) < 20:
             bullet.die()
             p2.health -= 1
-            if p2.health == 2:
-                p2.color() = colors[0]
-            elif p2.health == 1:
-                p2.color() = colors[1]
-            elif p2.health == 0:
-                p2.alive == False
-                p2.ht()
+            Player.stages(p2)
     for bullet in p2.bullets:
         bullet.move()
         if bullet.distance(p1) < 20:
             bullet.die()
             p1.health -= 1
-            if p1.health == 2:
-                p1.color() = colors[0]
-            elif p1.health == 1:
-                p1.color() = colors[1]
-            elif p1.health == 0:
-                p1.alive == False
-                p1.ht()
+            Player.stages(p1)
 
 screen.exitonclick()
